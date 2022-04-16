@@ -1,10 +1,20 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter as Router, Routes, Switch, Route, Link } from "react-router-dom";
+import Signin from "./Signin";
+import Dashboard from "./Dashboard";
 
 
 function App() {
-	return (
-	    <h1> Hello World! </h1>
-	);
+  return (
+    <Router>
+    <div className="App">
+        <Routes>
+          <Route exact path="/" element = {<Signin />}/>
+          <Route path="/dashboard" element = {<Dashboard />}/>
+        </Routes>
+    </div>
+    </Router>
+  );
 }
 
 export default App;
