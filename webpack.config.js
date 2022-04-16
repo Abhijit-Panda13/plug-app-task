@@ -1,8 +1,9 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    entry : './src/index.js',
+    entry : ["regenerator-runtime/runtime.js", "./src/index.js"],
     output : {
         path: path.join(__dirname, '/dist'),
         filename: 'bundle.js'
@@ -15,7 +16,7 @@ module.exports = {
     module: {
         rules:[
             {
-                test: /.js$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
@@ -23,8 +24,16 @@ module.exports = {
                         presets: ['@babel/preset-env', '@babel/preset-react']
                     }
                 }
-            }
+            },
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
+                
         ]
+    },
+    resolve: {
+         extensions: [".js", ".jsx"]
     }
 
 }

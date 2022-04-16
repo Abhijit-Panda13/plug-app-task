@@ -1,10 +1,16 @@
-import React from 'react';
-
+import React from "react";
+import Main from "./Main.jsx"
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 function App() {
-	return (
-	    <h1> Hello World! </h1>
-	);
+  
+  return (
+    <div className="wrapper">
+      <BrowserRouter>
+        <Main/>
+      </BrowserRouter>
+    </div>
+  ); 
 }
 
 export default App;
