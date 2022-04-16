@@ -1,29 +1,29 @@
 import React from "react";
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { logOut, UserDetails } from "../../services/firebase";
+import { logOut } from "../../services/firebase";
+import Signin from "./Signin";
+import PropTypes from 'prop-types';
 
-
-export default function Dashboard() {
-  const user=UserDetails;
+export default function Dashboard({onLogout}) {
+  const [user, setUser]=useState(localStorage.getItem("User"));
   let navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-        navigate('/');
-    }
-  }, [user]);
+  console.log(user);
+  
   
   return (
-    <div className="dashboard">
+    <div>
+      <div className="dashboard">
       <h1 className="dashboard-text">Welcome Home</h1>
-      <button className="logout-button" onClick={logOut}>
+      <button className="logout-button" onClick={onLogout}>
         <img
           src="https://img.icons8.com/ios-filled/50/000000/google-logo.png"
           alt="google icon"
         />
-        <span> logout</span>
+        <span>logout</span>
       </button>
-    </div>
+    </div> 
+  </div>
+    
   );
 }

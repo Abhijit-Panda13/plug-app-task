@@ -1,18 +1,34 @@
 import React, { useEffect, useContext, useState } from 'react';
 import './Signin.css'
-import { signInWithGoogle, UserDetails } from '../../services/firebase';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import {useNavigate} from "react-router-dom";
+import {auth, provider} from "../../services/firebase";
+import PropTypes from 'prop-types';
 
-
-export default function Signin() {
-  const user = UserDetails;
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate('/dashboard')
-    }
-  }, [user])
+export default function Signin({setToken}) {
+  const signInWithGoogle = async () =>{
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      setToken(user);
+      
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    });
+  }
+  
+  
   
   return (
       <div className="login-buttons">
@@ -23,3 +39,7 @@ export default function Signin() {
       </div>
   );
 }
+
+Signin.propTypes = {
+    setToken: PropTypes.func.isRequired
+  }

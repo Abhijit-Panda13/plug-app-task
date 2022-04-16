@@ -1,20 +1,16 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Switch, Route, Link } from "react-router-dom";
-import Signin from "./Signin";
-import Dashboard from "./Dashboard";
-
+import Main from "./Main.jsx"
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 function App() {
+  
   return (
-    <Router>
-    <div className="App">
-        <Routes>
-          <Route exact path="/" element = {<Signin />}/>
-          <Route path="/dashboard" element = {<Dashboard />}/>
-        </Routes>
+    <div className="wrapper">
+      <BrowserRouter>
+        <Main/>
+      </BrowserRouter>
     </div>
-    </Router>
-  );
+  ); 
 }
 
 export default App;
