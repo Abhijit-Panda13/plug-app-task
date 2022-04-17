@@ -4,11 +4,12 @@ import Signin from "./Signin";
 import Dashboard from "./Dashboard";
 import { logOut } from "../../services/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import {ref, set} from "firebase/database"; 
 import {auth, provider, db} from "../../services/firebase";
 
 const saveChange = async(user) =>{
   console.log("Hi");
-  await setDoc(doc(db, 'users', user.uid),{
+  await set(ref(db, 'users/'+user.uid),{
     name: user.displayName,
     email: user.email,
     photoURL: user.photoURL

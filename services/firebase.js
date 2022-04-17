@@ -1,6 +1,6 @@
 import {initializeApp} from "firebase/app";
 import { getAuth, GoogleAuthProvider, signOut, signInWithPopup } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 export const provider = new GoogleAuthProvider();
 
 const app = initializeApp({
@@ -19,7 +19,7 @@ export const auth = getAuth();
 
 
 // // init services
-export const db = getFirestore(app);
+export const db = getDatabase(app);
 
 // // collection ref
 // const colRef = collection(db, 'friends');
