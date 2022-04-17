@@ -2,8 +2,11 @@ import React, { useEffect, useContext, useState } from 'react';
 import './Signin.css'
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import {useNavigate} from "react-router-dom";
-import {auth, provider} from "../../services/firebase";
+import {auth, provider, db} from "../../services/firebase";
 import PropTypes from 'prop-types';
+
+
+
 
 export default function Signin({setToken}) {
   const signInWithGoogle = async () =>{
@@ -31,12 +34,11 @@ export default function Signin({setToken}) {
   
   
   return (
-      <div className="login-buttons">
-        <button className="login-provider-button" onClick={signInWithGoogle}>
-        <img src="https://img.icons8.com/ios-filled/50/000000/google-logo.png" alt="google icon"/>
-        <span> Continue with Google</span>
-       </button>
-      </div>
+    <div className="Buttons">
+    <button onClick={signInWithGoogle} type="button" className="login-with-google-btn" >
+      Sign in with Google
+    </button>
+    </div>
   );
 }
 
