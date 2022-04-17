@@ -1,9 +1,9 @@
 import {initializeApp} from "firebase/app";
-import { getAuth, getRedirectResult, GoogleAuthProvider, signOut, signInWithPopup } from "firebase/auth";
-
+import { getAuth, GoogleAuthProvider, signOut, signInWithPopup } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 export const provider = new GoogleAuthProvider();
 
-initializeApp({
+const app = initializeApp({
   apiKey: "AIzaSyAbDX2h89aE0swUhPHhDD5Kq0umt1n9Bmc",
   authDomain: "plug-app-backend.firebaseapp.com",
   databaseURL: "https://plug-app-backend-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -19,7 +19,7 @@ export const auth = getAuth();
 
 
 // // init services
-// const db = getFirestore();
+export const db = getDatabase(app);
 
 // // collection ref
 // const colRef = collection(db, 'friends');
@@ -31,8 +31,6 @@ export const auth = getAuth();
 export const logOut = ()=>{
   
   signOut(auth).then(() => {
-    
-
   }).catch((error) => {
     // An error happened.
   });
