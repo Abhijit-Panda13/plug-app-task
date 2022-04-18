@@ -4,31 +4,55 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { doc, setDoc } from "firebase/firestore";
 import {ref, set, get, child} from "firebase/database"; 
 import {auth, provider, db} from "../../services/firebase";
+import { Row, Col } from 'antd';
 
-export default function LikeArticle({liker, liked}){
+
+var liked_id=null;
+export default function LikeArticle(props){
     const [users, setUser]=useState(null);
+    liked_id = props.liked_id;
+    console.log(liked_id);
     const user = JSON.parse(localStorage.getItem("token"));
-    const saveChange = async(user) =>{
+    const saveLikeChange = async() =>{
         console.log("Hi");
-        await set(ref(db, 'users/'+user.uid),{
-          name: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          uid: user.uid,
-          likes: {...liker},
-          favourites: []
+        const liked_details = users[props.liked_id];
+        console.log(liked_id);
+        await set(ref(db, 'users/'+liked_id),{
+          name: liked_details.name,
+          email: liked_details.email,
+          photoURL: liked_details.photoURL,
+          uid: liked_details.uid,
+          likes: {...liked_details.likes, [props.liker_id] : props.liker_id},
+          favourites: {}
         }).then(function(res){
-          alert("Liked");
+            window.location.reload();
         }).catch(function(err){
           alert("Data error");
         }) 
       }
-      var listData = null;
-      if(user){
-        listData = Object.values(user);
+
+      const saveUnlikeChange = async() =>{
+        console.log("Hi");
+        const liked_details = users[props.liked_id];
+        console.log(liked_id);
+        const likes = delete liked_details.likes[props.liker_id];
+        await set(ref(db, 'users/'+liked_id),{
+          name: liked_details.name,
+          email: liked_details.email,
+          photoURL: liked_details.photoURL,
+          uid: liked_details.uid,
+          likes: likes,
+          favourites: {}
+        }).then(function(res){
+          window.location.reload();
+        }).catch(function(err){
+          alert("Data error");
+        }) 
       }
+      
+      var listData = null;
+      
       useEffect(async () => {
-        console.log("hi");
         if(!users){
           const dbRef = ref(db);
           await get(child(dbRef, `users/`)).then((snapshot) => {
@@ -41,10 +65,14 @@ export default function LikeArticle({liker, liked}){
     
     return(
         <div>
-            {listData && listData.filter(user => user.uid === liked).map((user)=>{
-                {user.likes.includes(liker) ? <HeartFilled /> : <HeartOutlined />}
-            })}
-            
+        <Row>
+            <Col>
+                {(users && users[props.liked_id] && users[props.liked_id].likes[props.liker_id]) ? <HeartFilled onClick={saveUnlikeChange}/> : <HeartOutlined onClick={saveLikeChange}/>}
+            </Col>
+            <Col>
+                
+            </Col>
+        </Row>
         </div>
     )
 }

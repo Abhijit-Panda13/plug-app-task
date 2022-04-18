@@ -56,6 +56,7 @@ export default function Dashboard({onLogout}) {
   
   if(user){
     listData = Object.values(user);
+    listData.sort((a, b) => parseFloat(Object.keys(b.likes).length) - parseFloat(Object.keys(a.likes).length));
   }
 
   
@@ -149,9 +150,12 @@ const IconText = ({ type, text }) => (
           <Col>
             {user && <LikeArticle liker_id = {unique_id} liked_id = {item.uid} />}
           </Col>
+          <Col>
+            {Object.keys(user[item.uid].likes).length}
+          </Col>
           </div>
         </Row>
-          <Meta title={item.uid} description="www.instagram.com" />
+          <Meta title={item.name} description="www.instagram.com" />
         </Card>
         
       </List.Item>
