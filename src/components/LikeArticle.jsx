@@ -14,16 +14,16 @@ export default function LikeArticle(props){
     console.log(liked_id);
     const user = JSON.parse(localStorage.getItem("token"));
     const saveLikeChange = async() =>{
-        console.log("Hi");
         const liked_details = users[props.liked_id];
-        console.log(liked_id);
+       
         await set(ref(db, 'users/'+liked_id),{
           name: liked_details.name,
           email: liked_details.email,
           photoURL: liked_details.photoURL,
           uid: liked_details.uid,
           likes: {...liked_details.likes, [props.liker_id] : props.liker_id},
-          favourites: {}
+          thumbsUp: liked_details.thumbsUp,
+          thumbsDown: liked_details.thumbsDown
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){
@@ -32,9 +32,8 @@ export default function LikeArticle(props){
       }
 
       const saveUnlikeChange = async() =>{
-        console.log("Hi");
+      
         const liked_details = users[props.liked_id];
-        console.log(liked_id);
         const likes = delete liked_details.likes[props.liker_id];
         await set(ref(db, 'users/'+liked_id),{
           name: liked_details.name,
@@ -42,7 +41,8 @@ export default function LikeArticle(props){
           photoURL: liked_details.photoURL,
           uid: liked_details.uid,
           likes: likes,
-          favourites: {}
+          thumbsUp: liked_details.thumbsUp,
+          thumbsDown: liked_details.thumbsDown
         }).then(function(res){
           window.location.reload();
         }).catch(function(err){

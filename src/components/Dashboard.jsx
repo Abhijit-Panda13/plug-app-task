@@ -12,6 +12,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
 import { ref, child, get } from "firebase/database";
 import LikeArticle from "./LikeArticle";
+import Thumbs from "./Thumbs";
 
 
 
@@ -144,17 +145,25 @@ const IconText = ({ type, text }) => (
           style={{ width: 400 }}
           cover={<img alt="example" src={item.photoURL} style={{padding:"2rem", borderRadius : "50%"}}/>}
         >
+        <div>
         <Row>
           
           <div class="container">
           <Col>
             {user && <LikeArticle liker_id = {unique_id} liked_id = {item.uid} />}
           </Col>
+          
           <Col>
             {Object.keys(user[item.uid].likes).length}
           </Col>
           </div>
         </Row>
+        <Row>
+        <Col>
+            {user && <Thumbs liker_id = {unique_id} liked_id = {item.uid} />}
+          </Col>
+        </Row>
+        </div>
           <Meta title={item.name} description="www.instagram.com" />
         </Card>
         
