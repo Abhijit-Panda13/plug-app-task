@@ -12,13 +12,18 @@ const saveChange = async(user) =>{
   await set(ref(db, 'users/'+user.uid),{
     name: user.displayName,
     email: user.email,
-    photoURL: user.photoURL
+    photoURL: user.photoURL,
+    uid: user.uid,
+    likes: [],
+    favourites: []
   }).then(function(res){
     window.location.reload();
   }).catch(function(err){
     alert("Data error");
   }) 
 }
+
+
 function setToken(userToken) {
 	localStorage.setItem('token', JSON.stringify(userToken));
   saveChange(userToken);
@@ -37,6 +42,8 @@ function onLogout(){
   window.location.reload();
 }
 function Main() {
+
+  
   const token= getToken();
   console.log("Tokenn", token);
  
