@@ -14,8 +14,9 @@ const saveChange = async(user) =>{
     email: user.email,
     photoURL: user.photoURL,
     uid: user.uid,
-    likes: {"xxx" : "xxx"},
-    favourites: {}
+    likes: true,
+    thumbsUp: true,
+    thumbsDown: true
   }).then(function(res){
     window.location.reload();
   }).catch(function(err){

@@ -67,7 +67,7 @@ export default function LikeArticle(props){
         <div>
         <Row>
             <Col>
-                {(users && users[props.liked_id] && users[props.liked_id].likes[props.liker_id]) ? <HeartFilled onClick={saveUnlikeChange}/> : <HeartOutlined onClick={saveLikeChange}/>}
+                {(users && users[props.liked_id] && users[props.liked_id].likes[props.liker_id]) ? <HeartFilled style={{ fontSize: '150%'}} onClick={saveUnlikeChange}/> : <HeartOutlined style={{ fontSize: '150%'}} onClick={saveLikeChange}/>}
             </Col>
             <Col>
                 

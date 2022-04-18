@@ -153,14 +153,18 @@ const IconText = ({ type, text }) => (
             {user && <LikeArticle liker_id = {unique_id} liked_id = {item.uid} />}
           </Col>
           
-          <Col>
-            {Object.keys(user[item.uid].likes).length}
-          </Col>
+          
           </div>
         </Row>
         <Row>
-        <Col>
+          <Col>
             {user && <Thumbs liker_id = {unique_id} liked_id = {item.uid} />}
+          </Col>
+          <Col className="likenumber">
+            {Object.keys(user[item.uid].thumbsUp).length}
+          </Col>
+          <Col className="dislikeName">
+            Dislike
           </Col>
         </Row>
         </div>

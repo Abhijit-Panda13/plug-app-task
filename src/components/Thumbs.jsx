@@ -5,6 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import {ref, set, get, child} from "firebase/database"; 
 import {auth, provider, db} from "../../services/firebase";
 import { Row, Col } from 'antd';
+import "./Thumbs.css";
 
 
 var liked_id=null;
@@ -140,10 +141,10 @@ export default function Thumbs(props){
         <div>
         <Row>
             <Col>
-                {(users && users[props.liked_id] && users[props.liked_id].thumbsUp[props.liker_id + "up"]) ? <LikeFilled  onClick={thumbsUpClear}/> : <LikeOutlined onClick={thumbsUp}/>}
+                {(users && users[props.liked_id] && users[props.liked_id].thumbsUp[props.liker_id + "up"]) ? <LikeFilled  style={{ fontSize: '150%'}} onClick={thumbsUpClear}/> : <LikeOutlined style={{ fontSize: '150%'}} onClick={thumbsUp}/>}
             </Col>
-            <Col>
-                {(users && users[props.liked_id] && users[props.liked_id].thumbsDown[props.liker_id + "down"]) ? <DislikeFilled onClick={thumbsDownClear}/> : <DislikeOutlined onClick={thumbsDown}/>}
+            <Col className="dislike">
+                {(users && users[props.liked_id] && users[props.liked_id].thumbsDown[props.liker_id + "down"]) ? <DislikeFilled style={{ fontSize: '150%'}} onClick={thumbsDownClear}/> : <DislikeOutlined style={{ fontSize: '150%'}} onClick={thumbsDown}/>}
             </Col>
         </Row>
         </div>

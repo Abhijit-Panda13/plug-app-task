@@ -33,7 +33,17 @@ img {
     padding: 15px 35px;
     border-radius: 4px;
 }
-.button-container a:hover {
+.button-container:hover {
     background-color: #2199e8;
     color: #fff;
+}
+.likenumber{
+    position: relative;
+    right:1rem;
+}
+.dislikeName{
+    position: relative;
+    left: 1.7rem;
+    font-size: 1rem;
+    bottom: 0.4rem;
 }
