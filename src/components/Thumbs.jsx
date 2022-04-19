@@ -61,7 +61,8 @@ export default function Thumbs(props){
           uid: liked_details.uid,
           likes: liked_details.likes,
           thumbsUp: {...liked_details.thumbsUp, [props.liker_id + "up"] : props.liker_id},
-          thumbsDown: likes
+          thumbsDown: likes,
+          description: liked_details.description
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){
@@ -79,7 +80,8 @@ export default function Thumbs(props){
           uid: liked_details.uid,
           likes: liked_details.likes,
           thumbsUp: likes,
-          thumbsDown: {...liked_details.thumbsDown, [props.liker_id + "down"] : props.liker_id}
+          thumbsDown: {...liked_details.thumbsDown, [props.liker_id + "down"] : props.liker_id},
+          description: liked_details.description
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){
@@ -98,7 +100,8 @@ export default function Thumbs(props){
           uid: liked_details.uid,
           likes: liked_details.likes,
           thumbsUp: likes,
-          thumbsDown: liked_details.thumbsDown
+          thumbsDown: liked_details.thumbsDown,
+          description: liked_details.description
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){
@@ -117,7 +120,8 @@ export default function Thumbs(props){
           uid: liked_details.uid,
           likes: liked_details.likes,
           thumbsUp: liked_details.thumbsUp,
-          thumbsDown: likes
+          thumbsDown: likes,
+          description: liked_details.description
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){
@@ -126,16 +130,27 @@ export default function Thumbs(props){
       }
       var listData = null;
       
-      useEffect(async () => {
-        if(!users){
-          const dbRef = ref(db);
-          await get(child(dbRef, `users/`)).then((snapshot) => {
-            setUser(snapshot.val());
-          }).catch((error) => {
-            console.error(error);
+      useEffect(()=>{
+    let ignore = false;
+    async function fetchData(){
+      console.log("hi");
+      if (!users) {
+        const dbRef = ref(db);
+        const res = await get(child(dbRef, `users/`))
+          .then((snapshot) => {
+            console.log(snapshot.val());
+            if (!ignore) setUser(snapshot.val()) ;
+            
           })
-        }
-      }, []);
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    };
+    fetchData();
+    return () => { ignore = true; }
+    
+  }, []);
     
     return(
         <div>

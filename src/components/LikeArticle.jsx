@@ -23,7 +23,8 @@ export default function LikeArticle(props){
           uid: liked_details.uid,
           likes: {...liked_details.likes, [props.liker_id] : props.liker_id},
           thumbsUp: liked_details.thumbsUp,
-          thumbsDown: liked_details.thumbsDown
+          thumbsDown: liked_details.thumbsDown,
+          description: liked_details.description
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){
@@ -42,7 +43,8 @@ export default function LikeArticle(props){
           uid: liked_details.uid,
           likes: likes,
           thumbsUp: liked_details.thumbsUp,
-          thumbsDown: liked_details.thumbsDown
+          thumbsDown: liked_details.thumbsDown,
+          description: liked_details.description
         }).then(function(res){
           window.location.reload();
         }).catch(function(err){
@@ -52,15 +54,26 @@ export default function LikeArticle(props){
       
       var listData = null;
       
-      useEffect(async () => {
-        if(!users){
-          const dbRef = ref(db);
-          await get(child(dbRef, `users/`)).then((snapshot) => {
-            setUser(snapshot.val());
-          }).catch((error) => {
-            console.error(error);
-          })
-        }
+      useEffect(()=>{
+        let ignore = false;
+        async function fetchData(){
+          console.log("hi");
+          if (!users) {
+            const dbRef = ref(db);
+            const res = await get(child(dbRef, `users/`))
+              .then((snapshot) => {
+                console.log(snapshot.val());
+                if (!ignore) setUser(snapshot.val()) ;
+                
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
+        };
+        fetchData();
+        return () => { ignore = true; }
+        
       }, []);
     
     return(

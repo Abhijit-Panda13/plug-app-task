@@ -6,7 +6,8 @@ module.exports = {
     entry : ["regenerator-runtime/runtime.js", "./src/index.js"],
     output : {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/'
     },
     plugins: [
         new HTMLWebpackPlugin({
@@ -52,6 +53,9 @@ module.exports = {
 
         ]
     },
+    devServer: {
+        historyApiFallback: true,
+      },
     resolve: {
          extensions: [".js", ".jsx"]
     }

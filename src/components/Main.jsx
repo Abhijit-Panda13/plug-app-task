@@ -4,24 +4,48 @@ import Signin from "./Signin";
 import Dashboard from "./Dashboard";
 import { logOut } from "../../services/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import {ref, set} from "firebase/database"; 
+import {ref, set, get, child} from "firebase/database"; 
 import {auth, provider, db} from "../../services/firebase";
+import Profile from "./Profile";
 
 const saveChange = async(user) =>{
-  console.log("Hi");
-  await set(ref(db, 'users/'+user.uid),{
-    name: user.displayName,
-    email: user.email,
-    photoURL: user.photoURL,
-    uid: user.uid,
-    likes: true,
-    thumbsUp: true,
-    thumbsDown: true
-  }).then(function(res){
-    window.location.reload();
-  }).catch(function(err){
-    alert("Data error");
-  }) 
+  console.log("Hi", user.uid);
+  const dbRef = ref(db);
+  await get(child(dbRef, 'users/'+user.uid)).then(async(snapshot) => {
+    console.log(snapshot);
+    await set(ref(db, 'users/'+user.uid),{
+      name: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      uid: user.uid,
+      likes: snapshot.val().likes,
+      thumbsUp: snapshot.val().thumbsUp,
+      thumbsDown: snapshot.val().thumbsDown,
+      description: snapshot.val().description
+    }).then(function(res){
+      
+      window.location.reload();
+    }).catch(function(err){
+      alert("Data error");
+    }) 
+  }).catch(async (error) => {
+    await set(ref(db, 'users/'+user.uid),{
+      name: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      uid: user.uid,
+      likes: true,
+      thumbsUp: true,
+      thumbsDown: true,
+      description: true
+    }).then(function(res){
+      window.location.reload();
+    }).catch(function(err){
+      alert("Data error");
+    }) 
+  });
+
+  
 }
 
 
@@ -51,11 +75,13 @@ function Main() {
   if(!token) {
     return <Signin setToken={setToken} />
   }
+  
   return (
 	        <div className="wrapper">      
             <Routes>
               <Route path='/' element={<Dashboard onLogout={onLogout}/>}/>
               <Route path='/dashboard' element={<Dashboard onLogout={onLogout}/>}/>
+              <Route path='/profile' element={<Profile onLogout={onLogout}/>}/>
             </Routes>
           </div>
   );
