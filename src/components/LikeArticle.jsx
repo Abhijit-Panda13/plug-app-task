@@ -58,7 +58,7 @@ export default function LikeArticle(props){
         let ignore = false;
         async function fetchData(){
           console.log("hi");
-          if (!user) {
+          if (!users) {
             const dbRef = ref(db);
             const res = await get(child(dbRef, `users/`))
               .then((snapshot) => {

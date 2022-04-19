@@ -28,6 +28,7 @@ export default function Dashboard({ onLogout }) {
   const [formValue, setFormValue] = useState({
     description: "",
   });
+  const year = new Date().getFullYear();
   const [key, setKey] = useState(null);
   console.log(user_details);
 
@@ -151,7 +152,10 @@ export default function Dashboard({ onLogout }) {
     <div>
       <div className="dashboard">
         <h1 className="dashboard-text">
-          Welcome to Abhijit Panda's Task for Plug-App
+          <u>Welcome to Abhijit Panda's Task for Plug-App</u>
+        </h1>
+        <h1 className="text">
+          All Users
         </h1>
         <button class="button-28" role="button" onClick={navigateToProfile}>
           My Profile
@@ -186,8 +190,9 @@ export default function Dashboard({ onLogout }) {
                   // ]}
                 >
                   <Card
+                    className="User-Card"
                     hoverable
-                    style={{ width: 400 }}
+                    style={{ width: 400, height: 420 }}
                     cover={
                       <img
                         alt="example"
@@ -240,6 +245,9 @@ export default function Dashboard({ onLogout }) {
             />
           </Col>
         </Row>
+        <footer className="Copyright">
+          <p>Copyright ⓒ {year}</p>
+        </footer>
       </div>
     </div>
   );

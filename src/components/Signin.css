@@ -1,6 +1,6 @@
 .login-with-google-btn {
   transition: background-color .3s, box-shadow .3s;
-    
+  margin: 1rem;
   padding: 12px 16px 12px 42px;
   border: none;
   border-radius: 3px;
@@ -18,8 +18,8 @@
 }
 .login-with-google-btn:hover {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
-    background-color: #08D9D6;
-    color: black;
+    background-color: rgba(0, 0, 0, 0.575);;
+    color: white;
   }
   
 .login-with-google-btn:active {
@@ -37,8 +37,48 @@
 .Buttons{
   padding-top: 20rem;
 }
+
+.login-with-anonymous-btn {
+  transition: background-color .3s, box-shadow .3s;
+  margin: 1rem;
+  padding: 12px 16px 12px 16px;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+  
+  color: #eeeeee;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+  
+  /* background-image: url("https://img.icons8.com/ios/25/000000/anonymous-mask.png"); */
+  background-color: black;
+  background-repeat: no-repeat;
+  background-position: 12px 11px;
+}
+.login-with-anonymous-btn:hover {
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
+    background-color: rgba(0, 0, 0, 0.575);
+    color: white;
+  }
+  
+.login-with-anonymous-btn:active {
+    background-color: #eeeeee;
+  }
+  
+.login-with-anonymous-btn:focus {
+    outline: none;
+    box-shadow: 
+      0 -1px 0 rgba(0, 0, 0, .04),
+      0 2px 4px rgba(0, 0, 0, .25),
+      0 0 0 3px #c8dafc;
+  }
+
 body {
   background-color: #FFF7BC !important;
   text-align: center;
   padding-top: 2rem;
+}
+.anonymous{
+  margin-right: 0.4rem;
 }

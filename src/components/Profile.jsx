@@ -25,6 +25,7 @@ export default function Profile({ onLogout }) {
   const [formValue, setFormValue] = useState({
     description: "",
   });
+  const year = new Date().getFullYear();
   let navigate = useNavigate();
   console.log(user_details);
 
@@ -120,7 +121,10 @@ export default function Profile({ onLogout }) {
   return (
     <div>
       <h1 className="dashboard-text">
-        Welcome to Abhijit Panda's Task for Plug-App
+        <u>Welcome to Abhijit Panda's Task for Plug-App</u>
+      </h1>
+      <h1 className="text">
+        Hello {user_details.name}
       </h1>
       <button class="button-28" role="button" onClick={navigateToDashboard}>
         See All Users
@@ -160,24 +164,24 @@ export default function Profile({ onLogout }) {
         <p>{modalText}</p>
       </Modal>
       <Card
+        className="Profile-Card"
         hoverable
-        style={{ width: 400 }}
+        style={{ width: 400, height: 450 }}
         cover={
           <img
             alt="example"
             src={user_details.photoURL}
             style={{
               position: "relative",
-              left: "5rem",
-              padding: "1rem",
+              left: "2.5rem",
+              padding: "1.4rem",
               borderRadius: "50%",
-              width: "15rem",
+              width: "20rem",
             }}
           />
         }
       >
         <Meta
-          className="foot"
           title={user_details.name}
           description={user_details.description}
         />
@@ -195,6 +199,9 @@ export default function Profile({ onLogout }) {
           </Button>
         )}
       </Card>
+      <footer className="Copyright">
+        <p>Copyright ⓒ {year}</p>
+      </footer>
     </div>
   );
 }

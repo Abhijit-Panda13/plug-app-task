@@ -87,9 +87,9 @@ export default function Signin({ setToken }) {
       <button
         onClick={signInWithAnonymous}
         type="button"
-        className="login-with-google-btn"
+        className="login-with-anonymous-btn"
       >
-        Sign in Anonymously
+        <img className="anonymous" src="https://img.icons8.com/color/27/000000/anonymous-mask.png" />Sign in Anonymously
       </button>
     </div>
   );

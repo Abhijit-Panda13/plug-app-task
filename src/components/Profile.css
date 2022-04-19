@@ -39,17 +39,7 @@ img {
     background-color: #2199e8;
     color: #fff;
 }
-.likenumber{
-    position: relative;
-    right:1rem;
-    bottom: 3rem;
-}
-.dislikeName{
-    position: relative;
-    left: 1.7rem;
-    font-size: 1rem;
-    bottom: 3.4rem;
-}
+
 .Row1{
     position: relative;
     left: 9rem
@@ -72,13 +62,16 @@ img {
     position: relative;
     bottom: 3rem;
 }
-.foot{
+
+.Profile-Card{
+    margin-top: 1rem !important;
+    padding-top: 1rem !important;
     position: relative;
-    bottom: 1.5rem;
+    left: 18.4rem;
 }
 .status{
     position: relative;
-    bottom: 1rem;
+    top: 0.7rem;
     left: 8rem;
 }
 .dashboard-text{
@@ -219,3 +212,16 @@ div[class*=box] {
   box-shadow: none;
   transform: translateY(0);
 }
+footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+    right: 0.35rem;
+  }
+  .text{
+    font-family: 'Handlee', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 0px;
+  }

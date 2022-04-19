@@ -131,26 +131,26 @@ export default function Thumbs(props){
       var listData = null;
       
       useEffect(()=>{
-        let ignore = false;
-        async function fetchData(){
-          console.log("hi");
-          if (!user) {
-            const dbRef = ref(db);
-            const res = await get(child(dbRef, `users/`))
-              .then((snapshot) => {
-                console.log(snapshot.val());
-                if (!ignore) setUser(snapshot.val()) ;
-                
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          }
-        };
-        fetchData();
-        return () => { ignore = true; }
-        
-      }, []);
+    let ignore = false;
+    async function fetchData(){
+      console.log("hi");
+      if (!users) {
+        const dbRef = ref(db);
+        const res = await get(child(dbRef, `users/`))
+          .then((snapshot) => {
+            console.log(snapshot.val());
+            if (!ignore) setUser(snapshot.val()) ;
+            
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    };
+    fetchData();
+    return () => { ignore = true; }
+    
+  }, []);
     
     return(
         <div>
