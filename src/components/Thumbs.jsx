@@ -61,7 +61,7 @@ export default function Thumbs(props){
           uid: liked_details.uid,
           likes: liked_details.likes,
           thumbsUp: {...liked_details.thumbsUp, [props.liker_id + "up"] : props.liker_id},
-          thumbsDown: likes,
+          thumbsDown: liked_details.thumbsDown,
           description: liked_details.description
         }).then(function(res){
             window.location.reload();
@@ -71,15 +71,23 @@ export default function Thumbs(props){
       }
       const thumbsDown = async() =>{
         const liked_details = users[props.liked_id];
-        
-        const likes = liked_details.thumbsUp[props.liker_id + "up"] ? (delete liked_details.thumbsUp[props.liker_id + "up"]) : liked_details.thumbsUp;
+        var likes=null;
+        const data=props.liker_id + "up";
+        console.log("Data", liked_details.thumbsUp[data]);
+        if(liked_details.thumbsUp[data]){
+          console.log("True", true);
+          delete (liked_details.thumbsUp[data]);
+        }else{
+          likes = liked_details.thumbsUp;
+        }
+        console.log("Details", liked_details.thumbsUp);
         await set(ref(db, 'users/'+liked_id),{
           name: liked_details.name,
           email: liked_details.email,
           photoURL: liked_details.photoURL,
           uid: liked_details.uid,
           likes: liked_details.likes,
-          thumbsUp: likes,
+          thumbsUp: liked_details.thumbsUp,
           thumbsDown: {...liked_details.thumbsDown, [props.liker_id + "down"] : props.liker_id},
           description: liked_details.description
         }).then(function(res){
@@ -99,7 +107,7 @@ export default function Thumbs(props){
           photoURL: liked_details.photoURL,
           uid: liked_details.uid,
           likes: liked_details.likes,
-          thumbsUp: likes,
+          thumbsUp: liked_details.thumbsUp,
           thumbsDown: liked_details.thumbsDown,
           description: liked_details.description
         }).then(function(res){
@@ -120,7 +128,7 @@ export default function Thumbs(props){
           uid: liked_details.uid,
           likes: liked_details.likes,
           thumbsUp: liked_details.thumbsUp,
-          thumbsDown: likes,
+          thumbsDown: liked_details.thumbsDown,
           description: liked_details.description
         }).then(function(res){
             window.location.reload();

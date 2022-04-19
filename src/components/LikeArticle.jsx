@@ -41,7 +41,7 @@ export default function LikeArticle(props){
           email: liked_details.email,
           photoURL: liked_details.photoURL,
           uid: liked_details.uid,
-          likes: likes,
+          likes: liked_details.likes,
           thumbsUp: liked_details.thumbsUp,
           thumbsDown: liked_details.thumbsDown,
           description: liked_details.description
