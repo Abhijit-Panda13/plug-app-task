@@ -4,11 +4,40 @@ import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import {useNavigate} from "react-router-dom";
 import {auth, provider, db} from "../../services/firebase";
 import PropTypes from 'prop-types';
-
-
+import {signInAnonymously, onAuthStateChanged} from "firebase/auth";
+import {getRandomUser} from "../../services/randomuser";
 
 
 export default function Signin({setToken}) {
+  const [anonymous, setAnonymous] = useState(null);
+  const signInWithAnonymous = async () =>{
+  signInAnonymously(auth)
+    .then(() => {
+      // Signed in..
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ...
+    });
+    onAuthStateChanged(auth, (user) => {
+      console.log("user", anonymous.results[0].name.first + " "+ anonymous.results[0].name.last)
+      var user_final = {displayName: anonymous.results[0].name.first + " "+ anonymous.results[0].name.last,
+        email: anonymous.results[0].email,
+        photoURL: anonymous.results[0].picture.large,
+        uid: user.uid,
+        likes: true,
+        thumbsUp: true,
+        thumbsDown: true,
+        description: true}
+        console.log("Final User", user_final)
+      if (user_final) {
+        setToken(user_final);
+      } else {
+        alert("Error");
+      }
+    });
+  }
   const signInWithGoogle = async () =>{
     signInWithPopup(auth, provider)
     .then((result) => {
@@ -31,12 +60,22 @@ export default function Signin({setToken}) {
     });
   }
   
-  
+  useEffect(async() =>{
+    const user_detail = await getRandomUser();
+    console.log(user_detail);
+    if(!anonymous){
+      setAnonymous(user_detail);
+    }
+
+  }, []);
   
   return (
     <div className="Buttons">
     <button onClick={signInWithGoogle} type="button" className="login-with-google-btn" >
       Sign in with Google
+    </button>
+    <button onClick={signInWithAnonymous} type="button" className="login-with-google-btn" >
+      Sign in Anonymously
     </button>
     </div>
   );

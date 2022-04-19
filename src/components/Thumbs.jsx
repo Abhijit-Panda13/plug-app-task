@@ -79,7 +79,8 @@ export default function Thumbs(props){
           uid: liked_details.uid,
           likes: liked_details.likes,
           thumbsUp: likes,
-          thumbsDown: {...liked_details.thumbsDown, [props.liker_id + "down"] : props.liker_id}
+          thumbsDown: {...liked_details.thumbsDown, [props.liker_id + "down"] : props.liker_id},
+          description: liked_details.description
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){
@@ -98,7 +99,8 @@ export default function Thumbs(props){
           uid: liked_details.uid,
           likes: liked_details.likes,
           thumbsUp: likes,
-          thumbsDown: liked_details.thumbsDown
+          thumbsDown: liked_details.thumbsDown,
+          description: liked_details.description
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){
@@ -117,7 +119,8 @@ export default function Thumbs(props){
           uid: liked_details.uid,
           likes: liked_details.likes,
           thumbsUp: liked_details.thumbsUp,
-          thumbsDown: likes
+          thumbsDown: likes,
+          description: liked_details.description
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){

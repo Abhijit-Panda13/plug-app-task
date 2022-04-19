@@ -5,77 +5,121 @@ import { logOut, db } from "../../services/firebase";
 import Signin from "./Signin";
 import "./Dashboard.css"
 import PropTypes from 'prop-types';
-import { Pagination, Card } from 'antd';
+import { Pagination, Card, Button, Modal } from 'antd';
 import { Row, Col } from 'antd';
 import { List, Avatar, Switch } from 'antd';
 import { doc, getDoc } from "firebase/firestore";
 import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
-import { ref, child, get } from "firebase/database";
+import { ref, child, get, set } from "firebase/database";
 import LikeArticle from "./LikeArticle";
 import Thumbs from "./Thumbs";
+import { Form, Input } from 'antd';
 
-
-
-
+const user_details = JSON.parse(localStorage.getItem("token"));
 export default function Dashboard({onLogout}) {
   const [user, setUser]=useState(null);
   const [loading, setLoading] = useState(true);
   const [likes,setLikes] = useState(0);
   const { Meta } = Card;
-  const user_details = JSON.parse(localStorage.getItem("token"));
-  
-  // var likeDislike = new Firebase("https://like-unlike.firebaseio.com/");
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState('Add Status');
+  const [formValue, setFormValue] = useState({
+    description: "",
+  });
+  const [key, setKey] = useState(null);
+  console.log(user_details);
 
-  // var like;
-  // var dislike;
+  const saveDescription = async() =>{
+    
+    const details = user[key];
+    console.log("Details", details);
+    console.log("Key", formValue.description);
+    await set(ref(db, 'users/'+ key),{
+      name: details.name,
+      email: details.email,
+      photoURL: details.photoURL,
+      uid: details.uid,
+      likes: details.likes,
+      thumbsUp: details.thumbsUp,
+      thumbsDown: details.thumbsDown,
+      description: formValue.description
+    }).then(function(res){
+      window.location.reload();
+    }).catch(function(err){
+      alert("Data error");
+    }) 
+  }
 
-  // likeDislike.on("value", function(likeDislikeData) {
-  //   var data = likeDislikeData.val();
-  //   like = data.like;
-  //   dislike = data.dislike;
-  // });
+  const handleChange = (e) => {
+    const newData = { ...formValue };
+    newData[e.target.name.slice(0, 11)] = e.target.value;
+    console.log("Value", e.target.name.slice(0, 11));
+    setKey(e.target.name.slice(11));
+    setFormValue(newData);
+  };
 
-  // $('.like-container').on('click', function() {
-  //   likeDislike.update({
-  //     like: like+1
-  //   });
-  //   console.log("Number of likes:" + like);
-  // });
+  const showModal = () => {
+    setModalText('Add Status');
+    setVisible(true);
+  };
 
-  // $('.dislike-container a').on('click', function() {
-  //   likeDislike.update({
-  //     dislike: dislike+1
-  //   });
-  //   console.log("Number of dislikes: " + dislike);
-  // });
+  // const handleOk = () => {
 
+    
+  // };  
+
+  const handleSubmit = async (e) => {
+    console.log(e);
+    setModalText('Submitting');
+    setConfirmLoading(true);
+    saveDescription();
+    setTimeout(() => {
+      setVisible(false);
+      setConfirmLoading(false);
+    }, 2000);
+    e.preventDefault();
+    
+  };
+
+  const onFinish = (values) => {
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+    setVisible(false);
+  };
   var listData = null;
   const unique_id = user_details.uid;
   
-  let navigate = useNavigate();
   
   
   if(user){
     listData = Object.values(user);
-    listData.sort((a, b) => parseFloat(Object.keys(b.likes).length) - parseFloat(Object.keys(a.likes).length));
+    listData.map((a) => {
+      if (!a.likes[unique_id]) {
+        listData.push(listData.splice(listData.indexOf(a), 1)[0])
+      }
+      
+    });
+    listData.sort(function(a, b) {  
+      
+      if (a.likes[unique_id] && !b.likes[unique_id]) {
+         return -1;
+      }
+      if (!a.likes[unique_id] && b.likes[unique_id]) {
+        return 1;
+     }
+      
+      return parseFloat(Object.keys(b.thumbsUp).length) - parseFloat(Object.keys(a.thumbsUp).length);
+   });
   }
 
-  
-
-  
-  
-  console.log(listData);
-// for (let i = 0; i < listData.size(); i++) {
-//   listData.push({
-//     href: li[i].photoURL,
-//     title: userAll[i].name,
-//     avatar: userAll[i].photoURL,
-//     description:
-//       'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-//     content:
-//       'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-//   });
-// }
 
 const IconText = ({ type, text }) => (
   <span>
@@ -83,6 +127,7 @@ const IconText = ({ type, text }) => (
     {text}
   </span>
 );
+
 
   useEffect(async () => {
     console.log("hi");
@@ -99,10 +144,11 @@ const IconText = ({ type, text }) => (
   return (
     <div>
       
+      
       <div className="dashboard">
       <Row>
       <Col>
-        <h1 className="dashboard-text">Welcome Home</h1>
+        <h1 className="dashboard-text">Welcome to Abhijit Panda's Task for Plug-App</h1>
         <button className="logout-button" onClick={onLogout}>
           <img
             src="https://img.icons8.com/ios-filled/50/000000/google-logo.png"
@@ -140,24 +186,53 @@ const IconText = ({ type, text }) => (
         // ]}
         
       >
+        <Modal
+          title="Title"
+          visible={visible}
+          onOk={handleSubmit}
+          confirmLoading={confirmLoading}
+          onCancel={handleCancel}
+        >
+          <Form onSubmit={(e) => handleSubmit(e) }
+            name="basic"
+            labelCol={{ span: 0 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+          <Form.Item
+            
+            value={formValue.description}
+            label="Description"
+            rules={[{ required: true, message: 'Please input your description!' }]}
+          >
+            <Input name={"description" + item.uid} onChange={handleChange}/>
+          </Form.Item>
+          </Form>
+          <p>{modalText}</p>
+        </Modal>
         <Card
           hoverable
           style={{ width: 400 }}
           cover={<img alt="example" src={item.photoURL} style={{padding:"2rem", borderRadius : "50%"}}/>}
         >
         <div>
-        <Row>
+        <Row className="Row1">
           
           <div class="container">
-          <Col>
+          <Col className="heart">
             {user && <LikeArticle liker_id = {unique_id} liked_id = {item.uid} />}
           </Col>
-          
+          <Col className="favourite">
+            Favourite
+          </Col>
           
           </div>
         </Row>
-        <Row>
-          <Col>
+        <Row className="Row2">
+          <Col className="heart">
             {user && <Thumbs liker_id = {unique_id} liked_id = {item.uid} />}
           </Col>
           <Col className="likenumber">
@@ -168,7 +243,8 @@ const IconText = ({ type, text }) => (
           </Col>
         </Row>
         </div>
-          <Meta title={item.name} description="www.instagram.com" />
+        <Meta className="foot" title={item.name} description={item.description} />
+        {item.description === true ? <Button type="primary submit" onClick={showModal} className = "status submit">Add Status</Button> : <Button type="primary" onClick={showModal} className = "status">Edit Status</Button>}
         </Card>
         
       </List.Item>

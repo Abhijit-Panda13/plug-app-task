@@ -16,7 +16,8 @@ const saveChange = async(user) =>{
     uid: user.uid,
     likes: true,
     thumbsUp: true,
-    thumbsDown: true
+    thumbsDown: true,
+    description: true
   }).then(function(res){
     window.location.reload();
   }).catch(function(err){
@@ -51,6 +52,7 @@ function Main() {
   if(!token) {
     return <Signin setToken={setToken} />
   }
+  
   return (
 	        <div className="wrapper">      
             <Routes>

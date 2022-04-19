@@ -23,7 +23,8 @@ export default function LikeArticle(props){
           uid: liked_details.uid,
           likes: {...liked_details.likes, [props.liker_id] : props.liker_id},
           thumbsUp: liked_details.thumbsUp,
-          thumbsDown: liked_details.thumbsDown
+          thumbsDown: liked_details.thumbsDown,
+          description: liked_details.description
         }).then(function(res){
             window.location.reload();
         }).catch(function(err){
@@ -42,7 +43,8 @@ export default function LikeArticle(props){
           uid: liked_details.uid,
           likes: likes,
           thumbsUp: liked_details.thumbsUp,
-          thumbsDown: liked_details.thumbsDown
+          thumbsDown: liked_details.thumbsDown,
+          description: liked_details.description
         }).then(function(res){
           window.location.reload();
         }).catch(function(err){
